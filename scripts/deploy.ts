@@ -14,7 +14,13 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const Greeter = await ethers.getContractFactory("Greeter");
+  const tenderlyProvider = new ethers.providers.JsonRpcProvider(
+    process.env.TENDERLY_URL
+  );
+  const Greeter = await ethers.getContractFactory(
+    "Greeter",
+    tenderlyProvider.getSigner()
+  );
   const greeter = await Greeter.deploy("Hello, Hardhat!");
 
   await greeter.deployed();
